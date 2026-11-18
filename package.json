@@ -2,7 +2,7 @@
 	"name": "kvnflora",
 	"version": "1.0.0",
 	"description": "This is kvnflora project backend",
-	"main": "index.js",
+	"main": "src/server.ts",
 	"scripts": {
 		"start": "ts-node src/server.ts",
 		"start:dev": "nodemon --exec ts-node src/server.ts",
