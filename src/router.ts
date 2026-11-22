@@ -7,5 +7,3 @@ router.post('/login', memberController.login)
 router.post('/signup', memberController.signup)
 
 export default router
-
-// fix: organize spa & ssr business logic
