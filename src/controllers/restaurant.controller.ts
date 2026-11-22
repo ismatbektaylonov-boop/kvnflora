@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { MemberType } from '../libs/enums/member.enum'
 import { T } from '../libs/types/common'
-import { LoginInput, MemberInput } from '../libs/types/member'
+import { AdminRequest, LoginInput, MemberInput } from '../libs/types/member'
 import MemberService from '../models/Member.service'
 
 const restauntController: T = {}
@@ -24,24 +24,16 @@ restauntController.getLogin = (req: Request, res: Response) => {
 	}
 }
 
-restauntController.getSignup = async (req: Request, res: Response) => {
+restauntController.getSignup = (req: Request, res: Response) => {
 	try {
 		console.log('Signup Page')
 		res.render('signup')
-
-		const newMember: MemberInput = req.body
-		newMember.memberType = MemberType.RESTAURANT
-
-		const memberService = new MemberService()
-		const result = await memberService.processSignup(newMember)
-
-		res.send(result)
 	} catch (err) {
 		console.log('Error, getSignup:', err)
 	}
 }
 
-restauntController.processLogin = async (req: Request, res: Response) => {
+restauntController.processLogin = async (req: AdminRequest, res: Response) => {
 	try {
 		console.log('process Login')
 		console.log('body:', req.body)
@@ -50,17 +42,30 @@ restauntController.processLogin = async (req: Request, res: Response) => {
 		const memberService = new MemberService()
 		const result = await memberService.processLogin(input)
 
-		res.send(result)
+		req.session.member = result
+		req.session.save(function () {
+			res.send(result)
+		})
 	} catch (err) {
 		console.log('Error, processLogin:', err)
 		res.send(err)
 	}
 }
 
-restauntController.processSignup = (req: Request, res: Response) => {
+restauntController.processSignup = async (req: AdminRequest, res: Response) => {
 	try {
 		console.log('process Signup')
-		res.send('DONE')
+
+		const newMember: MemberInput = req.body
+		newMember.memberType = MemberType.RESTAURANT
+
+		const memberService = new MemberService()
+		const result = await memberService.processSignup(newMember)
+
+		req.session.member = result
+		req.session.save(function () {
+			res.send(result)
+		})
 	} catch (err) {
 		console.log('Error, processSignup:', err)
 		res.send(err)
