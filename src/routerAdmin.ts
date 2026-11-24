@@ -1,16 +1,16 @@
 import express from 'express'
-import restauntController from './controllers/restaurant.controller'
+import restaurantController from './controllers/restaurant.controller'
 const router = express.Router()
 
 /* Restaurant */
-router.get('/', restauntController.goHome)
+router.get('/', restaurantController.goHome)
 
 router
-	.get('/login', restauntController.getLogin)
-	.post('/login', restauntController.processLogin)
+	.get('/login', restaurantController.getLogin)
+	.post('/login', restaurantController.processLogin)
 router
-	.get('/signup', restauntController.getSignup)
-	.post('/signup', restauntController.processSignup)
+	.get('/signup', restaurantController.getSignup)
+	.post('/signup', restaurantController.processSignup)
 
 /* Product */
 
