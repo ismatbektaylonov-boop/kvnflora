@@ -1,19 +1,20 @@
 import express from 'express'
 import restaurantController from './controllers/restaurant.controller'
-const router = express.Router()
+const routerAdmin = express.Router()
 
 /* Restaurant */
-router.get('/', restaurantController.goHome)
-
-router
+routerAdmin.get('/', restaurantController.goHome)
+routerAdmin
 	.get('/login', restaurantController.getLogin)
 	.post('/login', restaurantController.processLogin)
-router
+routerAdmin
 	.get('/signup', restaurantController.getSignup)
 	.post('/signup', restaurantController.processSignup)
 
+routerAdmin.get('/check-me', restaurantController.checkAuthSession)
+routerAdmin.get('/logout', restaurantController.logout)
 /* Product */
 
 /* User */
 
-export default router
+export default routerAdmin
