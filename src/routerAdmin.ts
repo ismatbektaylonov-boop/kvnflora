@@ -1,4 +1,5 @@
 import express from 'express'
+import productController from './controllers/product.controller'
 import restaurantController from './controllers/restaurant.controller'
 const routerAdmin = express.Router()
 
@@ -13,7 +14,11 @@ routerAdmin
 
 routerAdmin.get('/check-me', restaurantController.checkAuthSession)
 routerAdmin.get('/logout', restaurantController.logout)
+
 /* Product */
+routerAdmin.get('/product/all', productController.getAllProducts)
+routerAdmin.post('/product/create', productController.createNewProduct)
+routerAdmin.post('/product/:id', productController.updateChosenProduct)
 
 /* User */
 
