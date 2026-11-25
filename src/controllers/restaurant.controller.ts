@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { MemberType } from '../libs/enums/member.enum'
-import Errors, { Message } from '../libs/Errors'
+import Errors, { HttpCode, Message } from '../libs/Errors'
 import { T } from '../libs/types/common'
 import { AdminRequest, LoginInput, MemberInput } from '../libs/types/member'
 import MemberService from '../models/Member.service'
@@ -51,7 +51,7 @@ restaurantController.processLogin = async (
 
 		req.session.member = result
 		req.session.save(function () {
-			res.send(result)
+			res.redirect('/admin/product/all')
 		})
 	} catch (err) {
 		console.log('Error, processLogin:', err)
@@ -69,8 +69,12 @@ restaurantController.processSignup = async (
 ) => {
 	try {
 		console.log('process Signup')
+		const file = req.file
+		if (!file)
+			throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG)
 
 		const newMember: MemberInput = req.body
+		newMember.memberImage = req.file?.path
 		newMember.memberType = MemberType.RESTAURANT
 
 		const memberService = new MemberService()
@@ -78,7 +82,7 @@ restaurantController.processSignup = async (
 
 		req.session.member = result
 		req.session.save(function () {
-			res.send(result)
+			res.redirect('/admin/product/all')
 		})
 	} catch (err) {
 		console.log('Error, processSignup:', err)
