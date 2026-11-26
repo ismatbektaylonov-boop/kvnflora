@@ -3,7 +3,15 @@
 	<body>
 		<div class="format1">Products Page</div>
 		<div>
-			<%=member.memberNick %>
+			<div class="format1">Products Page</div>
+			<div>
+				<%=member.memberNick %>
+			</div>
+			<% products.map((value, key)=> {%>
+				<p>
+					<%= value.productName%> - <%= value.productSize %> - PRICE <%= value.productPrice %>
+				</p>
+				<% }) %>
 		</div>
 	</body>
 
