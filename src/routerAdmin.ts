@@ -39,7 +39,10 @@ routerAdmin.post(
 )
 
 /* User */
+routerAdmin.get(
+	'/user/all',
+	restaurantController.verifyRestaurant,
+	restaurantController.getUsers,
+)
 
 export default routerAdmin
-
-// feat: developed updateChosenProduct business logic
